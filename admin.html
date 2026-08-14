@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CARTIFY Admin</title>
+<style>
+:root{--green:#59683a;--dark:#171613;--paper:#f5efe5;--card:#fffdf8;--line:#ded5c7;--muted:#746f66}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--dark);font:14px Arial,sans-serif}header{height:72px;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 28px}.logo{font-weight:800;letter-spacing:.08em;font-size:22px}.badge{background:#68734c;padding:7px 11px;border-radius:99px;font-size:12px}.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 72px)}aside{background:#eee5d7;border-right:1px solid var(--line);padding:22px}nav button{display:block;width:100%;border:0;background:transparent;text-align:left;padding:13px;border-radius:10px;margin:3px 0;cursor:pointer;font-weight:600}nav button.active,nav button:hover{background:#dce2ce;color:#3f4d29}main{padding:34px;max-width:1250px;width:100%;margin:auto}h1{font-family:Georgia,serif;font-size:42px;margin:0 0 8px}h2{font-family:Georgia,serif;font-size:28px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:25px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}.stat{font-size:32px;font-weight:800;margin-top:8px}.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:25px 0}button.primary{background:var(--green);color:white;border:0;border-radius:9px;padding:11px 16px;font-weight:700;cursor:pointer}button.secondary{background:transparent;border:1px solid var(--line);border-radius:9px;padding:10px 14px;cursor:pointer}table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}th,td{text-align:left;padding:14px;border-bottom:1px solid var(--line)}th{font-size:12px;text-transform:uppercase;color:var(--muted)}.thumb{width:50px;height:50px;border-radius:9px;background:#e7dcc8;display:grid;place-items:center;font-size:25px;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}.modal{display:none;position:fixed;inset:0;background:#17161388;place-items:center;padding:20px;z-index:20}.modal.show{display:grid}.dialog{background:var(--card);max-width:700px;width:100%;border-radius:18px;padding:26px;max-height:90vh;overflow:auto}.form{display:grid;gap:12px}.form label{font-weight:700}.form input,.form textarea,.form select{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:white;font:inherit}.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}.product-row{display:flex;align-items:center;gap:12px}.image-preview{height:150px;border:1px solid var(--line);border-radius:12px;background:#f6f1e7;display:grid;place-items:center;overflow:hidden}.image-preview img{width:100%;height:100%;object-fit:contain}.upload-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.upload-row input[type=file]{flex:1;min-width:220px}.upload-note{padding:10px 12px;border-radius:10px;background:#f1eadf;color:var(--muted);font-size:12px}.danger{color:#a33;border:0;background:transparent;cursor:pointer}.section{display:none}.section.active{display:block}.notice{padding:14px 16px;background:#e4ead6;border-radius:12px;margin:20px 0}.chat-layout{display:grid;grid-template-columns:300px 1fr;gap:16px}.chat-list,.chat-window{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}.chat-thread{width:100%;border:0;background:transparent;text-align:left;padding:12px;border-radius:10px;cursor:pointer}.chat-thread:hover,.chat-thread.active{background:#e4ead6}.messages{height:420px;overflow:auto;display:grid;align-content:start;gap:9px}.msg{max-width:75%;padding:10px 12px;border-radius:12px;background:#eee5d7}.msg.admin{justify-self:end;background:#dce2ce}.chat-reply{display:flex;gap:8px;margin-top:12px}.chat-reply input{flex:1;padding:12px;border:1px solid var(--line);border-radius:9px}.review{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;background:white}.review span{color:#8a793b}.danger-zone{border:1px solid #e0b7b7;background:#fff5f5}.inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}@media(max-width:800px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}.grid{grid-template-columns:1fr}.chat-layout{grid-template-columns:1fr}main{padding:20px}}
+
+.featured-selector{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fffdf8;padding:8px}
+.category-editor{display:grid;gap:12px}.category-editor-row{display:grid;grid-template-columns:70px 1fr 1fr 1fr 1fr auto;gap:10px;align-items:end;padding:14px;background:#f8f2e8;border:1px solid var(--line);border-radius:12px}.category-editor-row input{margin-top:5px}.category-editor-row .emoji-input{font-size:22px;text-align:center}.category-editor-row .check-wrap{display:flex;align-items:center;gap:7px;padding-bottom:11px}.category-editor-row small{display:block;color:var(--muted);margin-top:4px}@media(max-width:900px){.category-editor-row{grid-template-columns:1fr 1fr}.category-editor-row .emoji-input{font-size:18px}}.featured-option{display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid var(--line)}
+.featured-option:last-child{border-bottom:0}
+.featured-option img,.featured-option .featured-thumb{width:42px;height:42px;object-fit:cover;border-radius:8px;background:#eee3d2;display:grid;place-items:center;flex:none}
+.featured-option label{display:flex;align-items:center;gap:10px;cursor:pointer;width:100%}
+.featured-option input{accent-color:var(--green)}
+
+</style>
+</head>
+<body>
+<header><div class="logo">CARTIFY <span style="font-weight:400">ADMIN</span></div><div class="badge">Store Manager</div></header>
+<div class="layout"><aside><nav>
+<button class="active" data-section="dashboard">📊 Dashboard</button><button data-section="products">🛍️ Products</button><button data-section="chat">💬 Chat</button><button data-section="reviews">⭐ Reviews</button><button data-section="customization">✨ Customization</button><button data-section="orders">🧾 Orders</button><button data-section="appearance">🎨 Appearance</button><button data-section="pages">📄 Pages</button><button data-section="settings">⚙️ Settings</button>
+</nav></aside>
+<main>
+<section id="dashboard" class="section active"><h1>Good day.</h1><p class="muted">Manage your CARTIFY store from one place.</p><div class="notice">This build stores products, reviews, chats, settings and orders in this browser using local storage. For a public multi-customer store, connect a hosted database and secure payment provider.</div><div class="grid"><div class="card"><div class="muted">Products</div><div class="stat" id="statProducts">0</div></div><div class="card"><div class="muted">Reviews</div><div class="stat" id="statReviews">0</div></div><div class="card"><div class="muted">Orders</div><div class="stat" id="statOrders">0</div></div></div></section>
+<section id="products" class="section"><div class="toolbar"><div><h1>Products</h1><p class="muted">Add, edit and remove products. Changes appear on the storefront.</p></div><button class="primary" onclick="openProduct()">+ Add Product</button></div><table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Actions</th></tr></thead><tbody id="productRows"></tbody></table></section>
+<section id="chat" class="section"><h1>Chat</h1><p class="muted">Customer product questions appear here.</p><div class="chat-layout"><div class="chat-list" id="chatList"></div><div class="chat-window"><h2 id="chatTitle">Select a conversation</h2><div class="messages" id="messages"><p class="muted">Choose a product conversation.</p></div><form class="chat-reply" onsubmit="replyChat(event)"><input id="replyText" placeholder="Reply to customer..." required><button class="primary">Send</button></form></div></div></section>
+<section id="reviews" class="section"><h1>Reviews</h1><p class="muted">Review and manage customer feedback.</p><div id="reviewsList"></div></section>
+<section id="customization" class="section">
+<h1>Customization</h1>
+<p class="muted">Edit your storefront theme, typography, colors, images, homepage text and contact details from one place.</p>
+<div class="notice">Changes are saved in this browser and used by the storefront. Refresh the storefront after saving if it is already open.</div>
+<div class="card form">
+  <h2>Theme</h2>
+  <label>Theme preset
+    <select id="themePreset">
+      <option value="classic">CARTIFY Classic</option>
+      <option value="olive">Olive Minimal</option>
+      <option value="studio">Warm Studio</option>
+      <option value="mono">Monochrome</option>
+    </select>
+  </label>
+  <div class="grid" style="margin:0">
+    <label>Accent color<input id="customAccent" type="color" value="#59683a"></label>
+    <label>Page background<input id="customPaper" type="color" value="#f5efe5"></label>
+    <label>Text color<input id="customInk" type="color" value="#171613"></label>
+  </div>
+  <div class="grid" style="margin:0">
+    <label>Card background<input id="customWhite" type="color" value="#fffdf8"></label>
+    <label>Heading size <span id="headingScaleLabel">100%</span><input id="headingScale" type="range" min="85" max="120" value="100" oninput="headingScaleLabel.textContent=this.value+'%'"></label>
+    <label>Body text size <span id="bodyScaleLabel">100%</span><input id="bodyScale" type="range" min="90" max="115" value="100" oninput="bodyScaleLabel.textContent=this.value+'%'"></label>
+  </div>
+  <div class="grid" style="margin:0">
+    <label>Card roundness <span id="radiusLabel">22px</span><input id="customRadius" type="range" min="8" max="34" value="22" oninput="radiusLabel.textContent=this.value+'px'"></label>
+    <label>Section spacing <span id="spacingLabel">80px</span><input id="customSpacing" type="range" min="45" max="110" value="80" oninput="spacingLabel.textContent=this.value+'px'"></label>
+  </div>
+</div>
+
+<div class="card form" style="margin-top:16px">
+  <h2>Homepage</h2>
+  <label>Store name<input id="customTitle" value="CARTIFY"></label>
+  <label>Hero headline<input id="customHeadline" value="Everything You Need, All in One Place."></label>
+  <label>Hero subtext<textarea id="customSubtext" rows="3"></textarea></label>
+  <label>Hero image <input id="heroFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handleCustomizationImage(event,'heroImage','heroPreview')"></label>
+  <input id="heroImage" type="hidden">
+  <div id="heroPreview" class="image-preview" style="height:120px">Hero image preview</div>
+  <div class="grid" style="margin:0">
+    <label>Top Selling Products heading<input id="featuredTitle" value="Top Selling Products."></label>
+    <label>Top Selling Products subtext<input id="featuredSubtext" value="Top trending products chosen for you."></label>
+  </div>
+  <div class="grid" style="margin:0">
+    <label>All Products heading<input id="allProductsTitle" value="All Products."></label>
+    <label>All Products subtext<input id="allProductsSubtext" value="Explore our complete collection."></label>
+  </div>
+</div>
+
+
+<div class="card form" style="margin-top:16px">
+  <h2>Top Selling Products</h2>
+  <p class="muted">Choose exactly which products participate in the Top Selling Products carousel and how many products should be in the rotation.</p>
+  <div class="grid" style="margin:0">
+    <label>Products in rotation
+      <input id="featuredCount" type="number" min="1" max="999" value="7" oninput="updateFeaturedSelectedLabel()">
+      <small class="muted">You can choose 6, 7, 10, 20, or any number up to your available products.</small>
+    </label>
+    <div>
+      <label style="display:flex;align-items:center;justify-content:space-between">Selected products <span id="featuredSelectedLabel" class="muted">0 selected</span></label>
+      <div id="featuredProductSelector" class="featured-selector"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card form" style="margin-top:16px">
+  <h2>Shop by Category Buttons</h2>
+  <p class="muted">Every button below “Shop the collection” is fully configurable. Change its icon, label, category filter, destination, description, or hide it. These settings control the live storefront buttons.</p>
+  <div id="categoryButtonEditor" class="category-editor"></div>
+</div>
+
+<div class="card form" style="margin-top:16px">
+  <h2>Contact & Social</h2>
+  <div class="grid" style="margin:0">
+    <label>Email<input id="customEmail" type="email" placeholder="you@example.com"></label>
+    <label>Phone<input id="customPhone" placeholder="+92 ..."></label>
+    <label>Instagram URL<input id="customInstagram" type="url" placeholder="https://instagram.com/yourstore"></label>
+  </div>
+  <label>Address<input id="customAddress" placeholder="Your store address"></label>
+  <label>Hours<input id="customHours" placeholder="Mon–Fri: 9:00 AM–6:00 PM"></label>
+  <label>Footer tagline<input id="customTagline" placeholder="Unique products. Creative finds. Everyday favorites."></label>
+</div>
+
+<div class="actions">
+  <button class="secondary" onclick="resetCustomization()">Reset customization</button>
+  <button class="primary" onclick="saveCustomization()">Save All Customization</button>
+</div>
+</section>
+<section id="orders" class="section"><h1>Orders</h1><p class="muted">Orders recorded from this browser.</p><div id="ordersList"></div></section>
+<section id="appearance" class="section"><h1>Appearance</h1><p class="muted">Customize the storefront headline and visual identity.</p><div class="card form"><label>Accent green <input id="accent" type="color" value="#59683a"></label><label>Store title <input id="storeTitle" value="CARTIFY"></label><label>Homepage headline <input id="headline" value="Everything You Need, All in One Place."></label><label>Homepage subtext <textarea id="subtext" rows="4">A carefully chosen collection of unique products, creative finds, and everyday favorites.</textarea></label><div class="actions"><button class="primary" onclick="saveAppearance()">Save Appearance</button></div></div></section>
+<section id="pages" class="section"><h1>Pages</h1><p class="muted">Open the storefront sections.</p><div class="grid"><div class="card"><h2>Shop</h2><button class="secondary" onclick="preview('#shop-page')">Preview</button></div><div class="card"><h2>Product</h2><button class="secondary" onclick="preview('#product-page')">Preview</button></div><div class="card"><h2>About</h2><button class="secondary" onclick="preview('#about-page')">Preview</button></div><div class="card"><h2>Contact</h2><button class="secondary" onclick="preview('#contact-page')">Preview</button></div></div></section>
+<section id="settings" class="section"><h1>Settings</h1><p class="muted">Customize how customers contact you and how checkout is configured.</p><div class="card form"><label>Store email<input id="storeEmail" type="email" placeholder="you@example.com"></label><label>Store phone<input id="storePhone" placeholder="+92 ..."></label><label>Card payment provider / checkout URL<input id="paymentUrl" type="url" placeholder="https://your-payment-provider.example/checkout"></label><div class="notice">The storefront supports Card Payment and Cash on Delivery checkout choices. A real card charge requires a payment provider account and secure server-side integration. Never put secret payment keys in this HTML file.</div><div class="actions"><button class="primary" onclick="saveSettings()">Save Settings</button></div></div><div class="card danger-zone" style="margin-top:16px"><h2>Local data</h2><p>This removes products, reviews, chats and orders saved in this browser.</p><button class="secondary" onclick="clearStoreData()">Reset Store Data</button></div></section>
+</main></div>
+<div class="modal" id="modal"><div class="dialog"><h2 id="modalTitle">Add Product</h2><div class="form"><label>Product name<input id="pName"></label><label>Category<input id="pCategory"></label><label>Price<input id="pPrice" type="number" step="0.01" min="0"></label><label>Product Photo</label><div class="upload-row"><input id="pFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handleProductFile(event)"><button type="button" class="secondary" onclick="clearProductImage()">Remove Photo</button></div><div class="upload-note">Choose a photo directly from your computer. The image is optimized and saved with this product in this browser.</div><label>Or use an Image URL<input id="pImage" placeholder="https://... or assets/my-product.jpg" oninput="previewProductImage()"></label><div id="imagePreview" class="image-preview">Image preview</div><small class="muted">Direct JPG, PNG, WEBP or GIF image URLs work. Uploaded photos do not need a URL.</small><label>Description<textarea id="pDesc" rows="4"></textarea></label></div><div class="actions"><button class="secondary" onclick="closeProduct()">Cancel</button><button class="primary" onclick="saveProduct()">Save Product</button></div></div></div>
+<script>
+const KEY='cartifyProductsAdmin',REVIEWS='cartifyReviews',CHATS='cartifyChats',ORDERS='cartifyOrders',SETTINGS='cartifySettings',APPEARANCE='cartifyAppearance';
+let products=JSON.parse(localStorage.getItem(KEY)||'null')||[{id:1,name:'Olive Canvas',category:'Art & Prints',price:120,image:'',description:'Creative piece for your space.'},{id:2,name:'Everyday Tote',category:'Accessories',price:38,image:'',description:'Useful and stylish everyday find.'},{id:3,name:'Terracotta Gift Set',category:'Gifts & More',price:145,image:'',description:'A thoughtful gift set.'}];
+products=products.map((p,i)=>({...p,id:p.id||Date.now()+i}));let editing=-1,activeChat=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+function dedupeProducts(list){const arr=Array.isArray(list)?list:[];const seen=new Set();const out=[];for(let i=arr.length-1;i>=0;i--){const p=arr[i]||{};const key=String(p.name||'').trim().toLowerCase();if(!key){out.push(p);continue}if(seen.has(key))continue;seen.add(key);out.push(p)}return out.reverse();}
+products=dedupeProducts(products);
+function persist(){products=dedupeProducts(products);localStorage.setItem(KEY,JSON.stringify(products));render();}
+function render(){if(typeof renderFeaturedSelector==='function')renderFeaturedSelector();productRows.innerHTML=products.map((p,i)=>`<tr><td><div class="product-row"><div class="thumb">${p.image?`<img src="${esc(p.image)}" alt="" onerror="this.style.display='none';this.parentElement.textContent='🛍️'">`:'🛍️'}</div><b>${esc(p.name)}</b></div></td><td>${esc(p.category)}</td><td>$${Number(p.price).toFixed(2)}</td><td><button class="secondary" onclick="openProduct(${i})">Edit</button> <button class="danger" onclick="removeProduct(${i})">Delete</button></td></tr>`).join('');statProducts.textContent=products.length;renderReviews();renderChats();renderOrders();}
+function previewProductImage(){const box=document.getElementById('imagePreview');const url=pImage.value.trim();if(!url){box.textContent='Image preview';return}box.innerHTML=`<img src="${esc(url)}" alt="Preview" onerror="this.style.display='none';this.parentElement.textContent='Image could not be loaded. Use a direct image URL.'">`}
+function clearProductImage(){pImage.value='';pFile.value='';document.getElementById('imagePreview').textContent='Image preview'}
+function handleProductFile(e){const file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){alert('Please choose an image file.');e.target.value='';return}if(file.size>8*1024*1024){alert('Please choose an image smaller than 8 MB.');e.target.value='';return}const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const max=1400;const scale=Math.min(1,max/Math.max(img.width,img.height));const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);const data=canvas.toDataURL('image/jpeg',0.84);pImage.value=data;document.getElementById('imagePreview').innerHTML=`<img src="${data}" alt="Uploaded product photo">`};img.src=reader.result};reader.readAsDataURL(file)}
+function openProduct(i=-1){editing=i;modalTitle.textContent=i<0?'Add Product':'Edit Product';const p=i<0?{name:'',category:'',price:'',image:'',description:''}:products[i];pName.value=p.name;pCategory.value=p.category;pPrice.value=p.price;pImage.value=p.image||'';pFile.value='';pDesc.value=p.description||'';previewProductImage();modal.classList.add('show')}
+function closeProduct(){modal.classList.remove('show')}
+function saveProduct(){const p={id:editing<0?Date.now():products[editing].id,name:pName.value.trim(),category:pCategory.value.trim()||'Uncategorized',price:Number(pPrice.value)||0,image:pImage.value.trim(),description:pDesc.value.trim()};if(!p.name){alert('Please enter a product name.');return}const duplicateIndex=products.findIndex((x,i)=>i!==editing&&String(x.name||'').trim().toLowerCase()===p.name.toLowerCase());if(duplicateIndex>=0){if(!confirm('A product with this name already exists. Replace it with this product?'))return;products.splice(duplicateIndex,1);if(editing>duplicateIndex)editing--}if(editing<0)products.push(p);else products[editing]=p;products=dedupeProducts(products);persist();closeProduct()}
+function removeProduct(i){if(confirm('Delete this product?')){products.splice(i,1);persist()}}
+const CUSTOM='cartifyCustomization';
+const DEFAULT_CUSTOM={preset:'classic',accent:'#59683a',paper:'#f5efe5',ink:'#171613',white:'#fffdf8',headingScale:100,bodyScale:100,radius:22,spacing:80,title:'CARTIFY',headline:'Everything You Need, All in One Place.',subtext:'A carefully chosen collection of unique products, creative finds, and everyday favorites.',heroImage:'',featuredTitle:'Top Selling Products.',featuredSubtext:'Top trending products chosen for you.',allProductsTitle:'All Products.',allProductsSubtext:'Explore our complete collection.',email:'',phone:'',instagram:'',address:'',hours:'',tagline:'Unique products. Creative finds. Everyday favorites.',featuredIds:[],featuredCount:7,categoryButtons:[{id:'electronics',icon:'📱',label:'Electronics',category:'Electronics',description:'Shop electronics',href:'all-products.html?category=Electronics',visible:true},{id:'tech',icon:'💻',label:'Tech',category:'Tech',description:'Shop tech products',href:'all-products.html?category=Tech',visible:true},{id:'fashion',icon:'👗',label:'Fashion',category:'Fashion',description:'Shop fashion',href:'all-products.html?category=Fashion',visible:true},{id:'home',icon:'🏠',label:'Home',category:'Home',description:'Shop home products',href:'all-products.html?category=Home',visible:true},{id:'art',icon:'🎨',label:'Art',category:'Art',description:'Shop art products',href:'all-products.html?category=Art',visible:true},{id:'gifts',icon:'🎁',label:'Gifts',category:'Gifts',description:'Shop gifts',href:'all-products.html?category=Gifts',visible:true}]};
+const THEME_PRESETS={classic:{accent:'#59683a',paper:'#f5efe5',ink:'#171613',white:'#fffdf8'},olive:{accent:'#6b7650',paper:'#eef0e7',ink:'#1c2118',white:'#fbfcf8'},studio:{accent:'#a36a46',paper:'#f4eadf',ink:'#201914',white:'#fffaf4'},mono:{accent:'#222222',paper:'#f3f3f1',ink:'#111111',white:'#ffffff'}};
+function getCustomization(){return {...DEFAULT_CUSTOM,...JSON.parse(localStorage.getItem(CUSTOM)||'{}')}}
+function getCategoryButtonsAdmin(){
+  const c=getCustomization();
+  const defaults=getCustomization().categoryButtons||[];
+  return Array.isArray(defaults)&&defaults.length?defaults:[];
+}
+function renderCategoryButtonEditor(){
+  const box=document.getElementById('categoryButtonEditor'); if(!box)return;
+  const items=getCategoryButtonsAdmin();
+  box.innerHTML=items.map((b,i)=>`<div class="category-editor-row">
+    <label>Icon<input class="category-icon-input emoji-input" data-i="${i}" value="${esc(b.icon||'•')}"></label>
+    <label>Button text<input class="category-label-input" data-i="${i}" value="${esc(b.label||'Category')}"></label>
+    <label>Category filter<input class="category-filter-input" data-i="${i}" value="${esc(b.category||'')}"><small>Used to filter All Products.</small></label>
+    <label>Destination<input class="category-href-input" data-i="${i}" value="${esc(b.href||'all-products.html')}"></label>
+    <label>Description / tooltip<input class="category-desc-input" data-i="${i}" value="${esc(b.description||'')}"></label>
+    <label class="check-wrap"><input type="checkbox" class="category-visible-input" data-i="${i}" ${b.visible!==false?'checked':''}> Visible</label>
+  </div>`).join('');
+}
+function collectCategoryButtons(){
+  const c=getCustomization(); const base=Array.isArray(c.categoryButtons)?c.categoryButtons:[];
+  return base.map((b,i)=>({...b,icon:document.querySelector(`.category-icon-input[data-i="${i}"]`)?.value.trim()||'•',label:document.querySelector(`.category-label-input[data-i="${i}"]`)?.value.trim()||'Category',category:document.querySelector(`.category-filter-input[data-i="${i}"]`)?.value.trim()||'',href:document.querySelector(`.category-href-input[data-i="${i}"]`)?.value.trim()||'all-products.html',description:document.querySelector(`.category-desc-input[data-i="${i}"]`)?.value.trim()||'',visible:!!document.querySelector(`.category-visible-input[data-i="${i}"]`)?.checked}));
+}
+
+function fillCustomization(){const c=getCustomization();themePreset.value=c.preset;customAccent.value=c.accent;customPaper.value=c.paper;customInk.value=c.ink;customWhite.value=c.white;headingScale.value=c.headingScale;bodyScale.value=c.bodyScale;customRadius.value=c.radius;customSpacing.value=c.spacing;headingScaleLabel.textContent=c.headingScale+'%';bodyScaleLabel.textContent=c.bodyScale+'%';radiusLabel.textContent=c.radius+'px';spacingLabel.textContent=c.spacing+'px';customTitle.value=c.title;customHeadline.value=c.headline;customSubtext.value=c.subtext;heroImage.value=c.heroImage||'';featuredTitle.value=c.featuredTitle;featuredSubtext.value=c.featuredSubtext;allProductsTitle.value=c.allProductsTitle;allProductsSubtext.value=c.allProductsSubtext;customEmail.value=c.email;customPhone.value=c.phone;customInstagram.value=c.instagram;customAddress.value=c.address;customHours.value=c.hours;customTagline.value=c.tagline;heroPreview.innerHTML=c.heroImage?`<img src="${esc(c.heroImage)}" alt="Hero preview">`:'Hero image preview';renderFeaturedSelector();renderCategoryButtonEditor()}
+function handleCustomizationImage(e,targetId,previewId){const file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){alert('Please choose an image file.');e.target.value='';return}if(file.size>8*1024*1024){alert('Please choose an image smaller than 8 MB.');e.target.value='';return}const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const max=1800,scale=Math.min(1,max/Math.max(img.width,img.height));const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);const data=canvas.toDataURL('image/jpeg',0.86);document.getElementById(targetId).value=data;document.getElementById(previewId).innerHTML=`<img src="${data}" alt="Image preview">`};img.src=reader.result};reader.readAsDataURL(file)}
+function applyThemePreset(){const p=THEME_PRESETS[themePreset.value];if(!p)return;customAccent.value=p.accent;customPaper.value=p.paper;customInk.value=p.ink;customWhite.value=p.white}
+themePreset.addEventListener('change',applyThemePreset);
+
+function renderFeaturedSelector(){
+  const box=document.getElementById('featuredProductSelector');
+  const countEl=document.getElementById('featuredCount');
+  const label=document.getElementById('featuredSelectedLabel');
+  if(!box||!countEl)return;
+  let c={}; try{c=JSON.parse(localStorage.getItem(CUSTOM)||'{}')||{}}catch(e){}
+  const selected=new Set((Array.isArray(c.featuredIds)?c.featuredIds:[]).map(Number));
+  const count=Math.max(1,Number(c.featuredCount||Math.min(7,products.length)||1));
+  countEl.value=count;
+  box.innerHTML=products.map((p,i)=>`
+    <div class="featured-option">
+      <label>
+        <input type="checkbox" class="featured-check" value="${Number(p.id)}" ${selected.has(Number(p.id))?'checked':''} onchange="updateFeaturedSelectedLabel()">
+        ${p.image?`<img src="${esc(p.image)}" alt="">`:`<span class="featured-thumb">🛍️</span>`}
+        <span><b>${esc(p.name)}</b><small class="muted" style="display:block">${esc(p.category)} · $${Number(p.price).toFixed(2)}</small></span>
+      </label>
+    </div>`).join('') || '<p class="muted">Add products first.</p>';
+  updateFeaturedSelectedLabel();
+}
+function updateFeaturedSelectedLabel(){
+  const label=document.getElementById('featuredSelectedLabel');
+  const checks=[...document.querySelectorAll('.featured-check:checked')];
+  const count=Math.max(1,Number(document.getElementById('featuredCount')?.value||7));
+  if(label)label.textContent=`${checks.length} selected · rotation ${count}`;
+}
+function getFeaturedAdminValues(){
+  const checks=[...document.querySelectorAll('.featured-check:checked')].map(x=>Number(x.value)).filter(Boolean);
+  const count=Math.max(1,Number(document.getElementById('featuredCount')?.value||7));
+  if(checks.length && checks.length!==count){
+    if(!confirm(`You selected ${checks.length} products but set the rotation to ${count}. Continue? The storefront will use your selected products and fill any missing slots automatically.`)) return null;
+  }
+  return {featuredIds:checks,featuredCount:count};
+}
+
+function saveCustomization(){
+  const featured=getFeaturedAdminValues();
+  if(!featured)return;
+  const c={
+    preset:themePreset.value,accent:customAccent.value,paper:customPaper.value,ink:customInk.value,white:customWhite.value,
+    headingScale:Number(headingScale.value),bodyScale:Number(bodyScale.value),radius:Number(customRadius.value),spacing:Number(customSpacing.value),
+    title:customTitle.value.trim()||'CARTIFY',headline:customHeadline.value.trim(),subtext:customSubtext.value.trim(),heroImage:heroImage.value||'',
+    featuredTitle:featuredTitle.value.trim()||'Top Selling Products.',featuredSubtext:featuredSubtext.value.trim(),
+    allProductsTitle:allProductsTitle.value.trim()||'All Products.',allProductsSubtext:allProductsSubtext.value.trim(),
+    featuredIds:featured.featuredIds,featuredCount:featured.featuredCount,categoryButtons:collectCategoryButtons(),
+    email:customEmail.value.trim(),phone:customPhone.value.trim(),instagram:customInstagram.value.trim(),address:customAddress.value.trim(),hours:customHours.value.trim(),tagline:customTagline.value.trim()
+  };
+  localStorage.setItem(CUSTOM,JSON.stringify(c));
+  const old=JSON.parse(localStorage.getItem(SETTINGS)||'{}');
+  localStorage.setItem(SETTINGS,JSON.stringify({email:c.email,phone:c.phone,instagram:c.instagram,address:c.address,hours:c.hours,paymentUrl:old.paymentUrl||''}));
+  localStorage.setItem(APPEARANCE,JSON.stringify({accent:c.accent,title:c.title,headline:c.headline,subtext:c.subtext}));
+  alert('Customization saved. Refresh the storefront to see all changes.');
+}
+function resetCustomization(){if(!confirm('Reset all theme and page customization?'))return;localStorage.removeItem(CUSTOM);fillCustomization()}
+function saveAppearance(){localStorage.setItem(APPEARANCE,JSON.stringify({accent:accent.value,title:storeTitle.value.trim()||'CARTIFY',headline:headline.value.trim(),subtext:subtext.value.trim()}));alert('Appearance saved. Refresh the storefront if it is already open.')}
+function saveSettings(){const old=JSON.parse(localStorage.getItem(SETTINGS)||'{}');localStorage.setItem(SETTINGS,JSON.stringify({...old,email:storeEmail.value.trim(),phone:storePhone.value.trim(),paymentUrl:paymentUrl.value.trim()}));alert('Settings saved.')}
+function loadSettings(){const s=JSON.parse(localStorage.getItem(SETTINGS)||'{}');storeEmail.value=s.email||'';storePhone.value=s.phone||'';paymentUrl.value=s.paymentUrl||'';const a=JSON.parse(localStorage.getItem(APPEARANCE)||'{}');accent.value=a.accent||'#59683a';storeTitle.value=a.title||'CARTIFY';headline.value=a.headline||'Everything You Need, All in One Place.';subtext.value=a.subtext||'A carefully chosen collection of unique products, creative finds, and everyday favorites.'}
+function renderReviews(){const all=JSON.parse(localStorage.getItem(REVIEWS)||'{}');let out='';let count=0;Object.entries(all).forEach(([id,arr])=>{const p=products.find(x=>Number(x.id)===Number(id));(arr||[]).forEach((r,i)=>{count++;out+=`<div class="card review"><b>${esc(p?.name||'Product')}</b> — ${esc(r.name||'Customer')} <span>${'★'.repeat(Number(r.rating||5))}</span><p>${esc(r.text)}</p><small>${esc(r.date||'')}</small><button class="danger" onclick="deleteReview(${id},${i})">Delete review</button></div>`})});reviewsList.innerHTML=out||'<div class="card">No reviews yet.</div>';statReviews.textContent=count}
+function deleteReview(id,i){const all=JSON.parse(localStorage.getItem(REVIEWS)||'{}');all[id].splice(i,1);localStorage.setItem(REVIEWS,JSON.stringify(all));renderReviews()}
+function renderChats(){const all=JSON.parse(localStorage.getItem(CHATS)||'{}');const ids=Object.keys(all).filter(id=>(all[id]||[]).length);chatList.innerHTML=ids.length?ids.map(id=>{const p=products.find(x=>Number(x.id)===Number(id));const last=all[id][all[id].length-1];return `<button class="chat-thread ${Number(activeChat)===Number(id)?'active':''}" onclick="openChat(${id})"><b>${esc(p?.name||'Product')}</b><br><small>${esc(last?.text||'')}</small></button>`}).join(''):'<p class="muted">No product chats yet.</p>';if(activeChat)renderChatWindow()}
+function openChat(id){activeChat=Number(id);renderChats();renderChatWindow()}
+function renderChatWindow(){const all=JSON.parse(localStorage.getItem(CHATS)||'{}');const msgs=all[activeChat]||[];const p=products.find(x=>Number(x.id)===Number(activeChat));chatTitle.textContent=p?.name||'Product chat';messages.innerHTML=msgs.map(m=>`<div class="msg ${m.from==='admin'?'admin':''}"><b>${m.from==='admin'?'Store':'Customer'}:</b> ${esc(m.text)}</div>`).join('')||'<p class="muted">No messages.</p>';messages.scrollTop=messages.scrollHeight}
+function replyChat(e){e.preventDefault();if(!activeChat)return;const all=JSON.parse(localStorage.getItem(CHATS)||'{}');all[activeChat]=all[activeChat]||[];all[activeChat].push({from:'admin',text:replyText.value.trim(),date:Date.now()});localStorage.setItem(CHATS,JSON.stringify(all));replyText.value='';renderChats();renderChatWindow()}
+function renderOrders(){const orders=JSON.parse(localStorage.getItem(ORDERS)||'[]');statOrders.textContent=orders.length;ordersList.innerHTML=orders.length?orders.slice().reverse().map(o=>`<div class="card" style="margin:10px 0"><div class="inline"><b>${esc(o.id)}</b><span>${esc(o.payment)}</span><b>${esc(o.total)}</b></div><p>${esc(o.name)} — ${esc(o.email)}</p><small>${new Date(o.date).toLocaleString()}</small></div>`).join(''):'<div class="card">No orders yet.</div>'}
+function preview(hash){window.open('index.html'+hash,'_blank')}
+function clearStoreData(){if(!confirm('Reset all local store data?'))return;[KEY,REVIEWS,CHATS,ORDERS,SETTINGS,APPEARANCE,CUSTOM,'cartifyCart'].forEach(k=>localStorage.removeItem(k));location.reload()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.section).classList.add('active');if(b.dataset.section==='chat')renderChats()});
+window.addEventListener('storage',e=>{if([KEY,REVIEWS,CHATS,ORDERS].includes(e.key)){products=JSON.parse(localStorage.getItem(KEY)||'[]');render()}});loadSettings();fillCustomization();render();
+</script></body></html>
