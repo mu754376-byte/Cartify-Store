@@ -1,11 +1,22 @@
-CARTIFY updated storefront — category buttons + active navigation
+CARTIFY FINAL STORE BUILD
 
-Changes in this build:
-- Removed Collections from the top navigation.
-- Top navigation links underline while active/clicked.
-- The six buttons below Shop by category are functional and open filtered All Products views.
-- Added deep Admin → Customization controls for every category button: icon, text, category filter, destination, tooltip/description, and visibility.
-- Existing product, Top Selling Products, All Products, and other previous functionality is preserved.
+Files:
+- index.html: storefront home page
+- all-products.html: complete product collection
+- admin.html: store administration and deep customization
+- assets/cartify-logo.svg: built-in CARTIFY logo
+- assets/cartify-favicon.svg: CARTIFY browser icon
+- assets/cart-hero.png: hero artwork
 
-Open index.html to run the storefront.
-Open admin.html to customize the store.
+Admin includes:
+- CARTIFY logo/brand name/browser title/favicon controls
+- theme, colors, typography and spacing
+- hero image and homepage text
+- Top Selling Products selection and any rotation count
+- category button editor
+- contact/social details
+- custom page builder for extra pages
+- product management and image upload
+- store backup export/import for moving local data
+
+Important: this is a static HTML store. Admin data is stored in the browser localStorage. For a public multi-device store where customers share the same products/orders/admin data, a hosted database/backend and real payment provider are still required.
