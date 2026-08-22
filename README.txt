@@ -20,3 +20,6 @@ Admin includes:
 - store backup export/import for moving local data
 
 Important: this is a static HTML store. Admin data is stored in the browser localStorage. For a public multi-device store where customers share the same products/orders/admin data, a hosted database/backend and real payment provider are still required.
+
+
+Published-data fix: assets/cartify-data.js contains the exported store data so the published site does not depend on one device's localStorage. Regenerate this file when admin data is changed and the site must be synchronized across devices.
