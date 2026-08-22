@@ -137,6 +137,7 @@
 body{font-size:calc(1rem * var(--custom-body-scale,1))}
 .all-products-grid .all-product-card{border-radius:var(--custom-radius,16px);background:var(--custom-white,#fffdf8)}
 </style>
+  <script src="assets/cartify-data.js"></script>
 </head><body>
 <header><nav class="nav"><a class="brand" href="index.html#top">CARTIFY</a><div class="navlinks"><a href="index.html#featured-products">Shop</a><a href="all-products.html">All Products</a><a href="index.html#category-page">Categories</a><a href="index.html#about-page">About Us</a><a href="admin.html">Admin</a></div><div class="navactions"><button class="iconbtn" onclick="document.getElementById('search').focus()">⌕</button><button class="iconbtn" onclick="alert('Wishlist is available from the store.')">♡</button><button class="cartbtn" onclick="location.href='index.html#cart-page'">Cart <span class="cartcount" id="cartCount">0</span></button></div></nav></header>
 <main><section class="page-section" style="display:block"><div class="all-page-head"><div><div class="eyebrow">COLLECTION</div><h1>All Products.</h1><p>Explore our complete collection.</p></div><a class="btn" href="index.html#featured-products">← Back to Shop</a></div><div class="all-toolbar"><input id="search" placeholder="Search products..."><select id="sort"><option value="newest">Newest</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option></select></div><div class="all-products-grid" id="allProductsGrid"></div></section></main>
