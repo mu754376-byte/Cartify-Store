@@ -126,6 +126,8 @@
     .chatbox{border:1px solid var(--line);border-radius:16px;background:var(--white);padding:14px}.chat-messages{max-height:240px;overflow:auto;display:grid;gap:8px;margin-bottom:10px}.chat-msg{padding:9px 11px;border-radius:12px;background:var(--cream);font-size:13px}.chat-msg.customer{justify-self:start}.chat-msg.admin{justify-self:end;background:#dce2ce}.chat-form{display:flex;gap:8px}.chat-form input{flex:1;min-width:0}
     .payment-note{font-size:12px;color:var(--muted);padding:10px;background:var(--cream);border-radius:10px}
     .search-box{display:flex;gap:8px;margin:10px 0}.search-box input{flex:1;padding:12px;border:1px solid var(--line);border-radius:999px}
+    /* Keep the admin entry point hidden on phones; the admin page remains accessible by its direct URL. */
+    @media (max-width: 700px){#adminNavLink,#adminMobileLink{display:none!important}}
     .mobile-menu{display:none}
     @media(max-width:850px){
       .navlinks{display:none}.mobile-menu-btn{display:grid}.hero{grid-template-columns:1fr;padding-top:45px}.hero-art{min-height:390px}.hero-art img{min-height:390px}
